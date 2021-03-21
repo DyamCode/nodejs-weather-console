@@ -5,35 +5,19 @@ const menuOptions = [
   {
     type: 'list',
     name: 'option',
-    message: 'What do you want to do?',
+    message: 'Que deseas hacer?',
     choices: [
       {
-        value: '1',
-        name: `${'1.'.green} Create new task`,
+        value: 1,
+        name: `${'1.'.green} Buscar un lugar`,
       },
       {
-        value: '2',
-        name: `${'2.'.green} Show tasks`,
+        value: 2,
+        name: `${'2.'.green} Historial`,
       },
       {
-        value: '3',
-        name: `${'3.'.green} Show completed tasks`,
-      },
-      {
-        value: '4',
-        name: `${'4.'.green} Show pending tasks`,
-      },
-      {
-        value: '5',
-        name: `${'5.'.green} Complete task(s)`,
-      },
-      {
-        value: '6',
-        name: `${'6.'.green} Delete task`,
-      },
-      {
-        value: '0',
-        name: `${'7.'.green} Exit\n`,
+        value: 0,
+        name: `${'3.'.green} Salir\n`,
       },
     ],
   },
@@ -42,9 +26,9 @@ const menuOptions = [
 const inquireMenu = async () => {
   console.clear();
 
-  console.log('===================='.green);
-  console.log('   Pick an option   '.white);
-  console.log('====================\n'.green);
+  console.log('==========================='.green);
+  console.log('   Seleccione una opcion   '.white);
+  console.log('===========================\n'.green);
 
   const { option } = await inquirer.prompt(menuOptions);
 
@@ -72,7 +56,7 @@ const readInput = async (message) => {
       name: 'desc',
       message,
       validate(value) {
-        if (value.length === 0) return 'Please enter a value.';
+        if (value.length === 0) return 'Ingresa un texto valido.';
 
         return true;
       },
@@ -84,24 +68,24 @@ const readInput = async (message) => {
   return desc;
 };
 
-const customList = async (data = []) => {
-  const choices = data.map(({ id, description }, index) => {
+const listPlaces = async (places = []) => {
+  const choices = places.map(({ id, name }, index) => {
     return {
       value: id,
-      name: `${((++index).toString() + '.').green} ${description}`,
+      name: `${((++index).toString() + '.').green} ${name}`,
     };
   });
 
   choices.unshift({
     value: '0',
-    name: `${'0.'.green} Cancel`,
+    name: `${'0.'.green} Cancelar`,
   });
 
   const menuOptions = [
     {
       type: 'list',
       name: 'id',
-      message: 'Select a task to delete :('.red,
+      message: 'Seleccione un lugar'.cyan,
       choices,
     },
   ];
@@ -152,7 +136,7 @@ module.exports = {
   inquireMenu,
   pause,
   readInput,
-  customList,
+  listPlaces,
   confirmMenu,
   showChecklist,
 };
