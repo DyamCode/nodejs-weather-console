@@ -8,5 +8,9 @@
   },
   "keywords": [],
   "author": "Jhon Achata Limachi",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "inquirer": "^8.0.0"
+  }
 }
