@@ -1,11 +1,13 @@
+const fs = require('fs');
 const axios = require('axios');
 require('dotenv').config();
 
 class Searches {
-  record = ['Lima', 'Arequipa', 'Puno'];
+  record = [];
+  dbPath = './db/database.json';
 
   constructor() {
-    // TODO: Leer DB si existe
+    this.readDB();
   }
 
   get paramsMapbox() {
@@ -62,6 +64,33 @@ class Searches {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  storeRecord(place = '') {
+    if (this.record.includes(place.toLocaleLowerCase())) return;
+
+    this.record = this.record.splice(0, 5);
+
+    this.record.unshift(place.toLocaleLowerCase());
+
+    this.storeDB();
+  }
+
+  storeDB() {
+    const payload = {
+      record: this.record,
+    };
+
+    fs.writeFileSync(this.dbPath, JSON.stringify(payload));
+  }
+
+  readDB() {
+    if (!fs.existsSync(this.dbPath)) return;
+    const data = JSON.parse(
+      fs.readFileSync(this.dbPath, { encoding: 'utf-8' })
+    );
+
+    data.record.forEach((place) => this.record.push(place));
   }
 }
 
